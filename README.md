@@ -1,10 +1,20 @@
-# MO601-P1
+# MO601-P2
 
 Doutorando: Casio Pacheco Krebs
 
 RA: 264953
 
-O objetivo deste projeto é implementar um simulador de circuitos lógicos, que permita gerar o histórico dos valores dos sinais de entrada e de saída para cada porta lógica. Onde serão projetados dois fluxos de simulação, o primeiro considerando que o tempo de propagação da resposta a partir da variação de alguns dos sinais de entrada seja de 0 ciclos, e outro sendo de 1 ciclo de atraso.
+O objetivo deste projeto é implementar um simulador de processador baseado no conjunto de instruções (ISA) RISC-V RV32IM, onde que RV32I significa a versão de 32 bits das instruções básicas, e M a extensão para as instruções de multiplicação e divisão. O objetivo do simulador é realizar o Debug dos kernels, permitindo visualizar as instruções simuladas, combinado com os valores dos registradores associados 
+
+# Prerequisitos
+
+É necessário ter configurado o compilador gcc-riscv64-linux-gnu. Caso seja necessário sua instalação, pode ser realizado com os comandos abaixo:
+
+```
+sudo apt-get update -y
+sudo apt-get install -y gcc-riscv64-linux-gnu
+```
+
 
 
 # Clonar repositório
@@ -12,37 +22,25 @@ O objetivo deste projeto é implementar um simulador de circuitos lógicos, que 
 Para clonar o repositório, utilize o comando abaixo:
 
 ```
-git clone https://github.com/CPKrebs/MO601-P1.git
+git clone https://github.com/CPKrebs/MO601-P2.git
 ```
 
 
-# Preparação dos circuitos
+# Preparação das aplicações de entradas
 
-Antes de realizar a construção da imagem Docker, é necessário realizar a cópia dos novos testes de simulação dentro da pasta "test".
-
-
-# Configuração do Docker
+Antes de realizar a execução do simulador desenvolvido, é necessário realizar a cópia das novas aplicações de simulação dentro da pasta "test".
 
 
-Construa a imagem Docker a partir do Dockerfile. Este passo usa o comando ```docker build``` para construir a imagem:
-
-```
-docker build -t casio_p1 .
-```
+Após a cópia das aplicações, é necessário realizar o comando ```make```, a partir do arquivo Makefile que se encontra de dentro da pasta "test". Esse comando ira gerar uma pasta, denominada de Assemble, na raiz do projeto, onde será povoada com os arquivos gerados pelo Objdump
 
 
-Modificar o nome do docker, com a flag ```--name```, a partir do comando ```run```: 
+# Inicialização do simulador
+
+
+Para realizar a ativação do simulador, deve ser utilizado o comando abaixo:
 
 ```
-docker run -d --name casio_p1_exec casio_p1
+python3 Riscv_casio.py 
 ```
 
-
-
-# Coleta de resultados
-
-Para realizar as copias dos dados de saida, é utilizado o comando ```docker cp```.
-
-```
-docker cp casio_p1_exec:/test/. test/.
-```
+A saída será armazenada na pasta "test". Para cada aplicação simulada, será gerado um arquivo log com o nome correspondente da aplicação seguido pelo padão ".log".

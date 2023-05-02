@@ -45,7 +45,7 @@ def print_log (w, PC, inst_hex, rd, Val_rd, rs1, Val_rs1, rs2, Val_rs2, inst, as
 def riscv(codigos):
 
 	# Inicializa o arquivo de log
-	w = open("log/"+ codigos+ '.log', 'w', newline='', encoding='utf-8')
+	w = open("test/"+ codigos+ '.log', 'w', newline='', encoding='utf-8')
 
 	# Abre o arquivo assemble
 	f = open("assemble/"+ codigos)
@@ -159,9 +159,9 @@ def riscv(codigos):
 			imd = int("".join(str(x) for x in imd_bin), 2)
 			if (inst_bin[0] == 1): imd -= (1<<32)
 
-			PC = PC + imd - 4
+			#PC = PC + imd
 
-			if (rd!=0):	RG[rd] = PC + 4
+			if (rd!=0):	RG[rd] = PC + imd
 
 			print_log (w, PC, inst_hex, rd, RG[rd], rs1, Val_rs1, rs2, Val_rs2, \
 				'auipc   ', '{},{:d}'.format(RG_id[rd], imd))
