@@ -97,6 +97,8 @@ def riscv(codigos):
 
 		PC += 4		
 
+		if (PC not in Mem): break
+
 		####################
 		#
 		#	Decode
