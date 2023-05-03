@@ -235,7 +235,7 @@ def riscv(codigos):
 				print_log (w, PC, inst_hex, rd, RG[rd], rs1, Val_rs1, rs2, Val_rs2, \
 					'bge     ', '{},{},{}'.format(RG_id[rs1], RG_id[rs2],imd))
 				
-				if (RG[rs1] > RG[rs2]):	PC = PC + imd - 4
+				if (RG[rs1] >= RG[rs2]):	PC = PC + imd - 4
 
 			
 			#imm[12|10:5] rs2 rs1 110 imm[4:1|11] 1100011 BLTU	
@@ -265,7 +265,7 @@ def riscv(codigos):
 				aux_rs2 = RG[rs2]
 				if (aux_rs2 < 0): 	aux_rs2 += (1<<32)
 
-				if (aux_rs1 > aux_rs2):	PC = PC + imd - 4
+				if (aux_rs1 >= aux_rs2):	PC = PC + imd - 4
 					
 
 		#imm[11:0] rs1 XXX rd 0000011 
