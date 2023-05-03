@@ -36,7 +36,7 @@ Após a cópia das aplicações, é necessário realizar o comando ```make```, a
 make
 ```
 
-Esse comando ira gerar uma pasta, denominada de Assemble, na raiz do projeto, onde será povoada com os arquivos gerados pelo Objdump
+Esse comando ira gerar uma pasta, denominada de "assemble/", na raiz do projeto, onde será povoada com os arquivos gerados pelo Objdump.
 
 
 # Inicialização do simulador
