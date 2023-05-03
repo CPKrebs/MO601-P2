@@ -4,7 +4,7 @@ Doutorando: Casio Pacheco Krebs
 
 RA: 264953
 
-O objetivo deste projeto é implementar um simulador de processador baseado no conjunto de instruções (ISA) RISC-V RV32IM, onde que RV32I significa a versão de 32 bits das instruções básicas, e M a extensão para as instruções de multiplicação e divisão. O objetivo do simulador é realizar o Debug dos kernels, permitindo visualizar as instruções simuladas, combinado com os valores dos registradores associados 
+O objetivo deste projeto é implementar um simulador de processador baseado no conjunto de instruções (ISA) RISC-V RV32IM. Onde a nomenclatura RV32I significa a versão de 32 bits contendo as instruções básicas, e M a extensão para as instruções de multiplicação e divisão. O objetivo do simulador é realizar o Debug dos kernels, permitindo visualizar as instruções simuladas, combinado com os valores dos registradores associados 
 
 # Pré-Requisitos
 
