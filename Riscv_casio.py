@@ -54,16 +54,15 @@ def riscv(codigos):
 	RG = 32*[0]
 	Mem = {}
 
-	Clock = 0
-	inicio = 0
-
+	# Inicializando o contador de programa
 	PC = 0
 
 	####################
 	#
 	#	Carregando as instruções na memória
 	#
-	####################	
+	####################
+	Clock = 0	
 	for line in f:
 		if (Clock>5):
 
@@ -95,9 +94,8 @@ def riscv(codigos):
 		#	Fetch
 		#
 		####################	
-		PC += 4		
 
-		#if (PC not in Mem): break
+		PC += 4		
 
 		####################
 		#
@@ -107,7 +105,7 @@ def riscv(codigos):
 
 		inst_hex = Mem[PC]									# Lê a string de HEX
 		inst_bin = bin(int(inst_hex, 16))					# Converte para binário
-		inst_bin = [int(d) for d in str(inst_bin)[2::]]		# Converte uma um array
+		inst_bin = [int(d) for d in str(inst_bin)[2::]]		# Converte em um array
 		inst_bin = (32-len(inst_bin))*[0] + inst_bin 		# Completa o array ate 32 bits (caso os bists mais significativos sejam 0)
 		
 
@@ -158,8 +156,6 @@ def riscv(codigos):
 			imd_bin = inst_bin[0:20] + 12*[0]
 			imd = int("".join(str(x) for x in imd_bin), 2)
 			if (inst_bin[0] == 1): imd -= (1<<32)
-
-			#PC = PC + imd
 
 			if (rd!=0):	RG[rd] = PC + imd
 
@@ -279,7 +275,7 @@ def riscv(codigos):
 			imd = int("".join(str(x) for x in imd_bin), 2)
 			if (inst_bin[0] == 1): imd -= (1<<12)
 
-			if ((RG[rs1] + imd + 0) not in Mem): Mem[RG[rs1] + imd + 0] = 8*[0]
+			if ((RG[rs1] + imd + 0) not in Mem): Mem[RG[rs1] + imd] =     8*[0]
 			if ((RG[rs1] + imd + 1) not in Mem): Mem[RG[rs1] + imd + 1] = 8*[0]
 			if ((RG[rs1] + imd + 2) not in Mem): Mem[RG[rs1] + imd + 2] = 8*[0]
 			if ((RG[rs1] + imd + 3) not in Mem): Mem[RG[rs1] + imd + 3] = 8*[0]
@@ -484,9 +480,10 @@ def riscv(codigos):
 					if (Val_rs1 < 0): 	aux = bin(Val_rs1+(1<<32))
 					else :				aux = bin(Val_rs1)
 
-					rs1_bin = [int(d) for d in str(aux)[2::]]		# Converte uma um array
+					rs1_bin = [int(d) for d in str(aux)[2::]]		# Converte em um array
 					rs1_bin = (32-len(rs1_bin))*[0] + rs1_bin 
 
+					# Realiza o shift
 					for x in range(shamt):
 						for y in range(31):	
 							rs1_bin[y] = rs1_bin[y+1]
@@ -509,9 +506,10 @@ def riscv(codigos):
 						if (Val_rs1 < 0): 	aux = bin(Val_rs1+(1<<32))
 						else :				aux = bin(Val_rs1)
 
-						rs1_bin = [int(d) for d in str(aux)[2::]]		# Converte uma um array
+						rs1_bin = [int(d) for d in str(aux)[2::]]		# Converte em um array
 						rs1_bin = (32-len(rs1_bin))*[0] + rs1_bin 
 
+						# Realiza o shift
 						for x in range(shamt):
 							for y in range(31):	
 								rs1_bin[31-y] = rs1_bin[30-y]
@@ -552,9 +550,10 @@ def riscv(codigos):
 						if (Val_rs1 < 0): 	aux = bin(Val_rs1+(1<<32))
 						else :				aux = bin(Val_rs1)
 
-						rs1_bin = [int(d) for d in str(aux)[2::]]		# Converte uma um array
+						rs1_bin = [int(d) for d in str(aux)[2::]]		# Converte em um array
 						rs1_bin = (32-len(rs1_bin))*[0] + rs1_bin 
 
+						# Realiza o shift
 						for x in range(RG[rs2]):
 							for y in range(31):	
 								rs1_bin[y] = rs1_bin[y+1]
@@ -584,9 +583,10 @@ def riscv(codigos):
 						if (Val_rs1 < 0): 	aux = bin(Val_rs1+(1<<32))
 						else :				aux = bin(Val_rs1)
 
-						rs1_bin = [int(d) for d in str(aux)[2::]]		# Converte uma um array
+						rs1_bin = [int(d) for d in str(aux)[2::]]		# Converte em um array
 						rs1_bin = (32-len(rs1_bin))*[0] + rs1_bin 
 
+						# Realiza o shift
 						for x in range(RG[rs2]):
 							for y in range(31):	
 								rs1_bin[31-y] = rs1_bin[30-y]
@@ -652,7 +652,7 @@ def riscv(codigos):
 
 				#0100000 rs2 rs1 101 rd 0110011 SRA
 				elif (func3 == [1,0,1]):
-					if (rd!=0):	RG[rd] = RG[rs1] >> rs2
+					if (rd!=0):	RG[rd] = RG[rs1] >> RG[rs2]
 					
 					print_log (w, PC, inst_hex, rd, RG[rd], rs1, Val_rs1, rs2, Val_rs2, \
 						'sra     ', '{},{},{}'.format(RG_id[rd], RG_id[rs1], RG_id[rs2]))
@@ -744,9 +744,7 @@ def riscv(codigos):
 					if (rd!=0):	
 						div_int = RG[rs1] // RG[rs2]
 
-						if (div_int < 0):
-							if (div_int < Val_rs1 / Val_rs2):
-								div_int +=1
+						if (div_int < 0 and div_int < Val_rs1 / Val_rs2): div_int +=1
 
 						RG[rd] = RG[rs1] - (RG[rs2]*div_int)%(1<<32)
 
@@ -865,12 +863,9 @@ def main():
 	kernel  = sorted(kernel)
 
 	for codigos in kernel:
-		#if ("000" in codigos):
-
 		t1 = time.time()
 		riscv(codigos)
-		t2 = time.time() - t1
-		print(codigos,t2)
+		print(codigos,time.time() - t1)
 
 if __name__ == "__main__":
     main()
