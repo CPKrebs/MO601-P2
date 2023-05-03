@@ -6,7 +6,7 @@ RA: 264953
 
 O objetivo deste projeto é implementar um simulador de processador baseado no conjunto de instruções (ISA) RISC-V RV32IM, onde que RV32I significa a versão de 32 bits das instruções básicas, e M a extensão para as instruções de multiplicação e divisão. O objetivo do simulador é realizar o Debug dos kernels, permitindo visualizar as instruções simuladas, combinado com os valores dos registradores associados 
 
-# Pré Requisitos
+# Pré-Requisitos
 
 É necessário ter configurado o compilador gcc-riscv64-linux-gnu. Caso seja necessário sua instalação, pode ser realizado com os comandos abaixo:
 
@@ -52,7 +52,7 @@ A saída será armazenada na pasta "test". Para cada aplicação simulada, será
 
 # Execução automática
 
-O fluxo de compilação, de simulação e de limpesas de arquivos temporários, podem ser realizadas de forma atuomática, para isso, as aplicações que seram simuladas devem estar na pasta "test/". O comando se encontra abaixo:
+O fluxo de compilação, de simulação e de limpezas de arquivos temporários, podem ser realizadas de forma automática, para isso, as aplicações que serão simuladas devem estar na pasta "test/". O comando se encontra abaixo:
 
 ```
 compilar_e_executar.sh
